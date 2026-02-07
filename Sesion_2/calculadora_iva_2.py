@@ -40,9 +40,9 @@ class Application(tk.Tk):
         amount = self.amount_var.get()
         iva = round(Decimal('0.16') * Decimal(amount),2)
         total = Decimal(amount) + iva
-        self.amount_label.config(text=f'Cantidad: ${amount} M.N.')
-        self.iva_label.config(text=f'IVA: ${iva} M.N.')
-        self.total_label.config(text=f'Total: ${total} M.N.')
+        self.amount_label.config(text=f'Cantidad: ${float(amount):,.2f} M.N.')
+        self.iva_label.config(text=f'IVA: ${float(iva):,.2f} M.N.')
+        self.total_label.config(text=f'Total: ${float(total):,.2f} M.N.')
 
 
 

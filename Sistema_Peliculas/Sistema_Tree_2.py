@@ -46,6 +46,17 @@ class Database:
         self.conn.commit()
 
 
+    def update_movie(self, title, genre, rate, year, format, codebar, price, id):
+        """Update Movie"""
+        update_query = """
+        UPDATE movies SET title = ?, genre = ?, rate = ?,
+        year = ?, format = ?, codebar = ?, price = ?
+        WHERE id = ?
+        """
+        self.cur.execute(update_query, (title, genre, rate, year, format, codebar, price, id))
+        self.conn.commit()
+
+
 
 class Application(tk.Tk):
     
@@ -221,7 +232,25 @@ class Application(tk.Tk):
         self.populate_my_table()
 
     def update_movie(self):
-        pass
+        select_item = self.tree_view.focus()
+        item_details = self.tree_view.item(select_item)
+
+        title = self.title_var.get()
+        genre = self.genre_var.get()
+        rate = self.rate_var.get()
+        year = self.year_var.get()
+        format = self.format_var.get()
+        barcode = self.codebar_var.get()
+        price = self.price_var.get()
+        id = item_details['values'][0]
+
+        self.db.update_movie(title, genre, rate, year, format, barcode, price, id)
+        self.results_label.config(text = 'La película fue actualizada en la Base de Datos')
+        self.reset_fields()
+        self.clean_table()
+        self.populate_my_table()
+
+
 
     def populate_my_table(self):
         for row in self.db.get_movies():
